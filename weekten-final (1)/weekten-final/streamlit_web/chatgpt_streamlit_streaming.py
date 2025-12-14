@@ -13,28 +13,27 @@ client = OpenAI(api_key=api_key) if api_key else None
 model = "deepseek-ai/DeepSeek-V3.2"  
 temperature = 0.7
 
-# Initialize session state
+
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "You are a helpful assistant."}
     ]
 
-# Display existing chat history
+
 for msg in st.session_state.messages:
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-# Wait for user input
+
 prompt = st.chat_input("Ask something...")
 if prompt:
-    # Add user message
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # STREAMING response
+
     with st.chat_message("assistant"):
         if not client:
             st.error("⚠️ Please set OPENAI_API_KEY in .env file or Streamlit secrets")
@@ -43,7 +42,7 @@ if prompt:
                 container = st.empty()
                 full_reply = ""
                 
-                # Show loading indicator
+                
                 with st.spinner("Getting response..."):
                     stream = client.chat.completions.create(
                         model=model,
@@ -60,7 +59,7 @@ if prompt:
 
                 container.markdown(full_reply)
 
-                # Save AI reply
+                
                 st.session_state.messages.append(
                     {"role": "assistant", "content": full_reply}
                 )

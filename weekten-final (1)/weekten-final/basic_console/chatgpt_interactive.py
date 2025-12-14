@@ -2,7 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-# Load API key from .env
+
 load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI(api_key=api_key)
@@ -21,7 +21,7 @@ while True:
     messages.append({'role': 'user', 'content': user_input})
 
     completion = client.chat.completions.create(
-        model='deepseek-ai/DeepSeek-V3.2',   # ✅ Fixed model name
+        model='deepseek-ai/DeepSeek-V3.2',   
         messages=messages
     )
     
